@@ -26,14 +26,14 @@ export default function createQueryResultsReducer<
   TError,
   TAction extends AnyAction = AnyAction
 >(inputConfig: {
-  updateIdsWhen: MultipleKeyedEntityFetchInputReducerConfig<
+  updateIdsWhen?: MultipleKeyedEntityFetchInputReducerConfig<
     TData,
     TError,
     TAction
   >;
-  invalidateWhen: FetchStatusInputReducerConfig<TError, TAction>;
-  removeIdWhen: KeyedEntityFetchInputReducerConfig<TData, TError, TAction>;
-  removeIdsWhen: MultipleKeyedEntityFetchInputReducerConfig<
+  invalidateWhen?: FetchStatusInputReducerConfig<TError, TAction>;
+  removeIdWhen?: KeyedEntityFetchInputReducerConfig<TData, TError, TAction>;
+  removeIdsWhen?: MultipleKeyedEntityFetchInputReducerConfig<
     TData,
     TError,
     TAction
