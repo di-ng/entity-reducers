@@ -136,8 +136,11 @@ export function queryFetchStatusReducerConfigForAction<
   TError,
   TAction extends AnyAction = AnyAction
 >(
-  inputConfig: FetchStatusInputReducerConfig<TError, TAction>,
+  inputConfig?: FetchStatusInputReducerConfig<TError, TAction>,
 ): ConfigForAction<FetchStatusReducerConfig<TError, TAction>> {
+  if (!inputConfig) {
+    return () => undefined;
+  }
   const normalizedConfig = normalizeFetchStatusReducerConfig<TError, TAction>(
     inputConfig,
   );
@@ -152,8 +155,11 @@ export function queryEntityFetchReducerConfigForAction<
   TError,
   TAction extends AnyAction = AnyAction
 >(
-  inputConfig: EntityFetchInputReducerConfig<TData, TError, TAction>,
+  inputConfig?: EntityFetchInputReducerConfig<TData, TError, TAction>,
 ): ConfigForAction<EntityFetchReducerConfig<TData, TError, TAction>> {
+  if (!inputConfig) {
+    return () => undefined;
+  }
   const normalizedConfig = normalizeEntityFetchReducerConfig<
     TData,
     TError,
@@ -170,8 +176,11 @@ export function queryKeyedEntityFetchReducerConfigForAction<
   TError,
   TAction extends AnyAction = AnyAction
 >(
-  inputConfig: KeyedEntityFetchInputReducerConfig<TData, TError, TAction>,
+  inputConfig?: KeyedEntityFetchInputReducerConfig<TData, TError, TAction>,
 ): ConfigForAction<KeyedEntityFetchReducerConfig<TData, TError, TAction>> {
+  if (!inputConfig) {
+    return () => undefined;
+  }
   const normalizedConfig = normalizeKeyedEntityFetchReducerConfig<
     TData,
     TError,
@@ -188,7 +197,7 @@ export function queryMultipleKeyedEntityFetchReducerConfigForAction<
   TError,
   TAction extends AnyAction = AnyAction
 >(
-  inputConfig: MultipleKeyedEntityFetchInputReducerConfig<
+  inputConfig?: MultipleKeyedEntityFetchInputReducerConfig<
     TData,
     TError,
     TAction
@@ -196,6 +205,9 @@ export function queryMultipleKeyedEntityFetchReducerConfigForAction<
 ): ConfigForAction<
   MultipleKeyedEntityFetchReducerConfig<TData, TError, TAction>
 > {
+  if (!inputConfig) {
+    return () => undefined;
+  }
   const normalizedConfig = normalizeMultipleKeyedEntityFetchReducerConfig<
     TData,
     TError,

@@ -6,10 +6,16 @@ export interface FetchStatusFields<TError> {
   readonly error: TError | undefined;
 }
 
-export default class FetchStatus<TError = any> implements FetchStatusFields<TError> {
+export default class FetchStatus<TError = any>
+  implements FetchStatusFields<TError> {
   public static NOT_FETCHED: FetchStatus = new FetchStatus();
-  public static COMPLETED: FetchStatus = new FetchStatus({ needsRefetch: false });
-  public static PENDING_READ: FetchStatus = new FetchStatus({ pendingOperation: 'read' });
+  public static COMPLETED: FetchStatus = new FetchStatus({
+    needsRefetch: false,
+  });
+  public static PENDING_READ: FetchStatus = new FetchStatus({
+    pendingOperation: 'read',
+    needsRefetch: false,
+  });
 
   public readonly pendingOperation: CrudOperation | undefined;
   public readonly needsRefetch: boolean = true;
@@ -17,7 +23,8 @@ export default class FetchStatus<TError = any> implements FetchStatusFields<TErr
 
   public constructor(data: Partial<FetchStatusFields<TError>> = {}) {
     this.pendingOperation = data.pendingOperation;
-    this.needsRefetch = typeof data.needsRefetch === 'boolean' ? data.needsRefetch : true;
+    this.needsRefetch =
+      typeof data.needsRefetch === 'boolean' ? data.needsRefetch : true;
     this.error = data.error;
   }
 
