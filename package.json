@@ -22,15 +22,15 @@
     "redux": ">=3.0.0"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.13",
+    "@types/jest": "^24.0.15",
     "@types/lodash.omit": "^4.5.6",
-    "husky": "^2.3.0",
-    "prettier": "^1.17.1",
-    "pretty-quick": "^1.11.0",
+    "husky": "^3.0.1",
+    "prettier": "^1.18.2",
+    "pretty-quick": "^1.11.1",
     "redux": "^4.0.1",
-    "tsdx": "^0.6.1",
-    "tslib": "^1.9.3",
-    "typescript": "^3.5.1"
+    "tsdx": "^0.7.2",
+    "tslib": "^1.10.0",
+    "typescript": "^3.5.3"
   },
   "dependencies": {
     "lodash.omit": "^4.5.0"
