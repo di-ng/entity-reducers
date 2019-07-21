@@ -7,7 +7,7 @@ export default function createFetchStatusReducer<
   TError,
   TAction extends AnyAction = AnyAction
 >(inputConfig: {
-  updateWhen: FetchStatusInputReducerConfig<TError, TAction>;
+  updateWhen?: FetchStatusInputReducerConfig<TError, TAction>;
   invalidateWhen?: FetchStatusInputReducerConfig<TError, TAction>;
 }) {
   const getUpdateWhenConfig = queryFetchStatusReducerConfigForAction(
