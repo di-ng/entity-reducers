@@ -59,8 +59,8 @@ export default function createEntityCacheReducer<
         ? {
             // TODO use a function
             ...inputConfig.updateEntityWhen,
-            types: inputConfig.updateEntityWhen.types.concat(
-              inputConfig.addEntityWhen.types,
+            takes: inputConfig.updateEntityWhen.takes.concat(
+              inputConfig.addEntityWhen.takes,
             ),
           }
         : inputConfig.updateEntityWhen || inputConfig.addEntityWhen,

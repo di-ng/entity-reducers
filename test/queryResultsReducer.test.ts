@@ -5,7 +5,7 @@ describe('queryResultsReducer', () => {
   const items = [{ id: '1', name: 'one' }, { id: '2', name: 'two' }];
 
   const reducer = createQueryResultsReducer({
-    updateIdsWhen: { types: ['FETCH_ITEMS'] },
+    updateIdsWhen: { takes: ['FETCH_ITEMS'] },
   });
 
   it('returns the default state', () => {

@@ -3,10 +3,10 @@ import FetchStatus from '../src/models/FetchStatus';
 
 describe('entityCacheReducer', () => {
   const reducer = createEntityCacheReducer({
-    mergeEntitiesWhen: { types: ['MERGE_ACTION'] },
-    addEntityWhen: { types: ['CREATE_ACTION'] },
-    updateEntityWhen: { types: ['GET_ACTION'] },
-    removeEntityWhen: { types: ['DELETE_ACTION'] },
+    mergeEntitiesWhen: { takes: ['MERGE_ACTION'] },
+    addEntityWhen: { takes: ['CREATE_ACTION'] },
+    updateEntityWhen: { takes: ['GET_ACTION'] },
+    removeEntityWhen: { takes: ['DELETE_ACTION'] },
   });
 
   it('returns the default state', () => {

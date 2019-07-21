@@ -3,7 +3,7 @@ import FetchStatus from '../src/models/FetchStatus';
 
 describe('entityFetchReducer', () => {
   const reducer = createEntityFetchReducer({
-    updateWhen: { types: ['FETCH_ITEM'] },
+    updateWhen: { takes: ['FETCH_ITEM'] },
   });
 
   it('returns the default state', () => {
