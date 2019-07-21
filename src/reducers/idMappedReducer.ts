@@ -12,9 +12,9 @@ export interface IdMappedReducerConfig<
   TData,
   TAction extends AnyAction = AnyAction
 >
-  extends EntityIdGettersConfig<TData, TAction>,
-    EntityDataGettersConfig<TData, TAction>,
-    EntityDataItemsGettersConfig<TData, TAction> {
+  extends Partial<EntityIdGettersConfig<TData, TAction>>,
+    Partial<EntityDataGettersConfig<TData, TAction>>,
+    Partial<EntityDataItemsGettersConfig<TData, TAction>> {
   perEntityReducer: Reducer<TState, TAction>;
 }
 
@@ -24,38 +24,47 @@ export default function createIdMappedReducer<
   TState,
   TData,
   TAction extends AnyAction = AnyAction
->(config: IdMappedReducerConfig<TState, TData, TAction>) {
+>({
+  getDataItemsFromAction = action => action.payload,
+  getIdFromData = data => (data as any).id,
+  getDataFromAction = action => action.payload,
+  perEntityReducer,
+}: IdMappedReducerConfig<TState, TData, TAction>) {
   return function idMappedReducer(state = defaultState, action: TAction) {
-    const dataItems = config.getDataItemsFromAction(action);
+    const dataItems = getDataItemsFromAction(action);
     if (dataItems) {
-      const ids = dataItems
-        .map(data => config.getIdFromData(data, action))
-        .filter(Boolean) as string[];
+      const ids = dataItems.map(data => getIdFromData(data, action));
       if (!ids.length) {
         return state;
       }
       return {
         ...state,
         ...ids.reduce(
-          (prev, id) => ({
-            ...prev,
-            [id]: config.perEntityReducer(state[id], action),
-          }),
+          (prev, id, i) =>
+            id
+              ? {
+                  ...prev,
+                  [id]: perEntityReducer(state[id], {
+                    ...action,
+                    payload: dataItems[i],
+                  }),
+                }
+              : prev,
           {},
         ),
       };
     } else {
-      const data = config.getDataFromAction(action);
+      const data = getDataFromAction(action);
       if (!data) {
         return state;
       }
-      const id = config.getIdFromData(data, action);
+      const id = getIdFromData(data, action);
       if (!id) {
         return state;
       }
       return {
         ...state,
-        ...config.perEntityReducer(state[id], action),
+        [id]: perEntityReducer(state[id], action),
       };
     }
   };
