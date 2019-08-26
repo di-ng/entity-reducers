@@ -57,18 +57,22 @@ export type PartialFetchStatusReducerConfig<
   TAction extends AnyAction
 > = Partial<FetchStatusReducerConfig<TError, TAction>>;
 
+export type TakeType = string;
+
 export interface PerActionTypeFetchStatusReducerConfig<
   TError,
   TAction extends AnyAction
 > extends PartialFetchStatusReducerConfig<TError, TAction> {
-  type: string;
+  take: TakeType;
 }
 
 export interface FetchStatusInputReducerConfig<
   TError,
   TAction extends AnyAction
 > extends PartialFetchStatusReducerConfig<TError, TAction> {
-  types: Array<string | PerActionTypeFetchStatusReducerConfig<TError, TAction>>;
+  takes: Array<
+    TakeType | PerActionTypeFetchStatusReducerConfig<TError, TAction>
+  >;
 }
 
 export type PartialEntityFetchReducerConfig<
@@ -82,7 +86,7 @@ export interface PerActionTypeEntityFetchReducerConfig<
   TError,
   TAction extends AnyAction
 > extends PartialEntityFetchReducerConfig<TData, TError, TAction> {
-  type: string;
+  take: TakeType;
 }
 
 export interface EntityFetchInputReducerConfig<
@@ -90,7 +94,7 @@ export interface EntityFetchInputReducerConfig<
   TError,
   TAction extends AnyAction
 > extends PartialEntityFetchReducerConfig<TData, TError, TAction> {
-  types: Array<
+  takes: Array<
     string | PerActionTypeEntityFetchReducerConfig<TData, TError, TAction>
   >;
 }
@@ -106,7 +110,7 @@ export interface PerActionTypeKeyedEntityFetchReducerConfig<
   TError,
   TAction extends AnyAction
 > extends PartialKeyedEntityFetchReducerConfig<TData, TError, TAction> {
-  type: string;
+  take: TakeType;
 }
 
 export interface KeyedEntityFetchInputReducerConfig<
@@ -114,8 +118,9 @@ export interface KeyedEntityFetchInputReducerConfig<
   TError,
   TAction extends AnyAction
 > extends PartialKeyedEntityFetchReducerConfig<TData, TError, TAction> {
-  types: Array<
-    string | PerActionTypeKeyedEntityFetchReducerConfig<TData, TError, TAction>
+  takes: Array<
+    | TakeType
+    | PerActionTypeKeyedEntityFetchReducerConfig<TData, TError, TAction>
   >;
 }
 
@@ -130,7 +135,7 @@ export interface PerActionTypeMultipleKeyedEntityFetchReducerConfig<
   TError,
   TAction extends AnyAction
 > extends PartialMultipleKeyedEntityFetchReducerConfig<TData, TError, TAction> {
-  type: string;
+  take: TakeType;
 }
 
 export interface MultipleKeyedEntityFetchInputReducerConfig<
@@ -138,8 +143,8 @@ export interface MultipleKeyedEntityFetchInputReducerConfig<
   TError,
   TAction extends AnyAction
 > extends PartialMultipleKeyedEntityFetchReducerConfig<TData, TError, TAction> {
-  types: Array<
-    | string
+  takes: Array<
+    | TakeType
     | PerActionTypeMultipleKeyedEntityFetchReducerConfig<TData, TError, TAction>
   >;
 }

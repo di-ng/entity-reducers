@@ -19,8 +19,8 @@ export default function createEntityFetchReducer<
   TError,
   TAction extends AnyAction = AnyAction
 >(inputConfig: {
-  updateWhen: EntityFetchInputReducerConfig<TData, TError, TAction>;
-  invalidateWhen: EntityFetchInputReducerConfig<TData, TError, TAction>;
+  updateWhen?: EntityFetchInputReducerConfig<TData, TError, TAction>;
+  invalidateWhen?: EntityFetchInputReducerConfig<TData, TError, TAction>;
 }) {
   const fetchStatusReducer = createFetchStatusReducer(inputConfig);
   const getUpdateWhenConfig = queryEntityFetchReducerConfigForAction(

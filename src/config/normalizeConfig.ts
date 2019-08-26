@@ -9,6 +9,7 @@ import {
   MultipleKeyedEntityFetchReducerConfig,
   KeyedEntityFetchInputReducerConfig,
   KeyedEntityFetchReducerConfig,
+  TakeType,
 } from '../types/reducerConfig';
 import { CrudOperation } from '../types/crudOperation';
 
@@ -37,7 +38,7 @@ function normalizeFetchStatusReducerConfig<
   TAction extends AnyAction = AnyAction
 >(inputConfig: FetchStatusInputReducerConfig<TError, TAction>) {
   const {
-    types,
+    takes,
     getCrudFromAction = defaultGetCrudFromAction,
     getErrorFromAction = defaultGetErrorFromAction,
     isStartAction = defaultIsStartAction,
@@ -45,7 +46,7 @@ function normalizeFetchStatusReducerConfig<
     isFailureAction = defaultIsFailureAction,
   } = inputConfig;
   return {
-    types,
+    takes,
     getCrudFromAction,
     getErrorFromAction,
     isStartAction,
@@ -106,38 +107,43 @@ function normalizeMultipleKeyedEntityFetchReducerConfig<
 
 function createActionTypeToConfigMap<TCommonConfig extends {}>(
   normalizedConfig: TCommonConfig & {
-    types: Array<string | Partial<TCommonConfig> & { type: string }>;
+    takes: Array<TakeType | Partial<TCommonConfig> & { take: TakeType }>;
   },
-): ActionTypeToConfigMap<TCommonConfig & { type: string }> {
-  const { types } = normalizedConfig;
-  const typesMap: ActionTypeToConfigMap<TCommonConfig & { type: string }> = {};
-  types.forEach(typeData => {
-    let type: string;
-    let config: TCommonConfig & { type: string };
-    if (typeof typeData === 'string') {
-      type = typeData as string;
+): ActionTypeToConfigMap<TCommonConfig & { take: TakeType }> {
+  const { takes } = normalizedConfig;
+  const takesMap: ActionTypeToConfigMap<
+    TCommonConfig & { take: TakeType }
+  > = {};
+  takes.forEach(takeData => {
+    let take: TakeType;
+    let config: TCommonConfig & { take: TakeType };
+    if (typeof takeData === 'string') {
+      take = takeData as string;
       config = {
         ...(omit(normalizedConfig, 'types') as any),
-        type,
+        take,
       };
     } else {
-      type = typeData.type;
+      take = takeData.take;
       config = {
         ...normalizedConfig,
-        ...typeData,
+        ...takeData,
       };
     }
-    typesMap[type] = config;
+    takesMap[take] = config;
   });
-  return typesMap;
+  return takesMap;
 }
 
 export function queryFetchStatusReducerConfigForAction<
   TError,
   TAction extends AnyAction = AnyAction
 >(
-  inputConfig: FetchStatusInputReducerConfig<TError, TAction>,
+  inputConfig?: FetchStatusInputReducerConfig<TError, TAction>,
 ): ConfigForAction<FetchStatusReducerConfig<TError, TAction>> {
+  if (!inputConfig) {
+    return () => undefined;
+  }
   const normalizedConfig = normalizeFetchStatusReducerConfig<TError, TAction>(
     inputConfig,
   );
@@ -152,8 +158,11 @@ export function queryEntityFetchReducerConfigForAction<
   TError,
   TAction extends AnyAction = AnyAction
 >(
-  inputConfig: EntityFetchInputReducerConfig<TData, TError, TAction>,
+  inputConfig?: EntityFetchInputReducerConfig<TData, TError, TAction>,
 ): ConfigForAction<EntityFetchReducerConfig<TData, TError, TAction>> {
+  if (!inputConfig) {
+    return () => undefined;
+  }
   const normalizedConfig = normalizeEntityFetchReducerConfig<
     TData,
     TError,
@@ -170,8 +179,11 @@ export function queryKeyedEntityFetchReducerConfigForAction<
   TError,
   TAction extends AnyAction = AnyAction
 >(
-  inputConfig: KeyedEntityFetchInputReducerConfig<TData, TError, TAction>,
+  inputConfig?: KeyedEntityFetchInputReducerConfig<TData, TError, TAction>,
 ): ConfigForAction<KeyedEntityFetchReducerConfig<TData, TError, TAction>> {
+  if (!inputConfig) {
+    return () => undefined;
+  }
   const normalizedConfig = normalizeKeyedEntityFetchReducerConfig<
     TData,
     TError,
@@ -188,7 +200,7 @@ export function queryMultipleKeyedEntityFetchReducerConfigForAction<
   TError,
   TAction extends AnyAction = AnyAction
 >(
-  inputConfig: MultipleKeyedEntityFetchInputReducerConfig<
+  inputConfig?: MultipleKeyedEntityFetchInputReducerConfig<
     TData,
     TError,
     TAction
@@ -196,6 +208,9 @@ export function queryMultipleKeyedEntityFetchReducerConfigForAction<
 ): ConfigForAction<
   MultipleKeyedEntityFetchReducerConfig<TData, TError, TAction>
 > {
+  if (!inputConfig) {
+    return () => undefined;
+  }
   const normalizedConfig = normalizeMultipleKeyedEntityFetchReducerConfig<
     TData,
     TError,

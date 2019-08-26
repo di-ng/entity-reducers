@@ -7,8 +7,8 @@ export default function createFetchStatusReducer<
   TError,
   TAction extends AnyAction = AnyAction
 >(inputConfig: {
-  updateWhen: FetchStatusInputReducerConfig<TError, TAction>;
-  invalidateWhen: FetchStatusInputReducerConfig<TError, TAction>;
+  updateWhen?: FetchStatusInputReducerConfig<TError, TAction>;
+  invalidateWhen?: FetchStatusInputReducerConfig<TError, TAction>;
 }) {
   const getUpdateWhenConfig = queryFetchStatusReducerConfigForAction(
     inputConfig.updateWhen,
@@ -24,6 +24,7 @@ export default function createFetchStatusReducer<
     if (updateWhenConfig) {
       if (updateWhenConfig.isStartAction(action)) {
         return new FetchStatus({
+          needsRefetch: false,
           pendingOperation: updateWhenConfig.getCrudFromAction(action),
         });
       }
