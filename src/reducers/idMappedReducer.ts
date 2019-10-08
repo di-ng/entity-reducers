@@ -26,7 +26,7 @@ export default function createIdMappedReducer<
   TAction extends AnyAction = AnyAction
 >({
   getDataItemsFromAction = action => action.payload,
-  getIdFromData = data => (data as any).id,
+  getIdFromData = data => data && (data as any).id,
   getDataFromAction = action => action.payload,
   perEntityReducer,
 }: IdMappedReducerConfig<TState, TData, TAction>) {
@@ -55,9 +55,6 @@ export default function createIdMappedReducer<
       };
     } else {
       const data = getDataFromAction(action);
-      if (!data) {
-        return state;
-      }
       const id = getIdFromData(data, action);
       if (!id) {
         return state;

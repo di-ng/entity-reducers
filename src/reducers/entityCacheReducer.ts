@@ -82,9 +82,10 @@ export default function createEntityCacheReducer<
       );
       return relevantConfig && relevantConfig.getDataFromAction(action);
     },
-    getIdFromData: (data: TData, action: TAction) => {
+    getIdFromData: (data: TData | undefined, action: TAction) => {
       const relevantConfig = getFirstDefined(
         getAddEntityWhenConfig(action),
+        getMergeEntitiesWhenConfig(action),
         getUpdateEntityConfig(action),
         getInvalidateEntityWhenConfig(action),
       );
@@ -104,9 +105,6 @@ export default function createEntityCacheReducer<
     const removeConfig = getRemoveEntityWhenConfig(action);
     if (removeConfig) {
       const data = removeConfig.getDataFromAction(action);
-      if (!data) {
-        return state;
-      }
       const id = removeConfig.getIdFromData(data, action);
       if (!id) {
         return state;

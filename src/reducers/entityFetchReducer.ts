@@ -31,14 +31,14 @@ export default function createEntityFetchReducer<
     action: TAction,
   ) {
     const newFetchStatusState = fetchStatusReducer(state.status, action);
-    let newDataState;
+    let newDataState = state.data;
     const updateWhenConfig = getUpdateWhenConfig(action);
     if (updateWhenConfig) {
       newDataState = updateWhenConfig.isStartAction(action)
-        ? undefined
+        ? newDataState
         : updateWhenConfig.isSuccessAction(action)
         ? updateWhenConfig.getDataFromAction(action)
-        : undefined;
+        : newDataState;
     }
     return {
       status: newFetchStatusState,
