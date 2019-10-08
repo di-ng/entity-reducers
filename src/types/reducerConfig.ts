@@ -18,7 +18,10 @@ export interface EntityDataItemsGettersConfig<
 }
 
 export interface EntityIdGettersConfig<TData, TAction extends AnyAction> {
-  getIdFromData: (data: TData, action: TAction) => string | undefined;
+  getIdFromData: (
+    data: TData | undefined,
+    action: TAction,
+  ) => string | undefined;
 }
 
 export interface FetchStatusReducerConfig<TError, TAction extends AnyAction>
