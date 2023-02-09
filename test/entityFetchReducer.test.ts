@@ -49,7 +49,7 @@ describe('entityFetchReducer', () => {
         pendingOperation: 'update',
         needsRefetch: false,
       }),
-      data: undefined,
+      data: 'data',
     });
   });
 
